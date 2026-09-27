@@ -1,74 +1,101 @@
 {% extends "base.html" %}
 
-{% block title %}Subtasks | Hangarin{% endblock %}
-
 {% block content %}
 
-<div class="content">
-    <div class="page-inner">
+<div class="container-fluid">
 
-        <div class="page-header">
-            <h4 class="page-title">Subtasks</h4>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1>Subtasks</h1>
+            <p class="text-muted">
+                Manage your task subtasks
+            </p>
         </div>
 
-        <div class="row mb-3">
+        <a href="{% url 'subtask-add' %}" class="btn btn-primary">
+            Add Subtask
+        </a>
 
-            <div class="col-md-8">
-
-                <form method="get">
-
-                    <div class="input-group">
-
-                        <input
-                            type="text"
-                            name="q"
-                            class="form-control"
-                            placeholder="Search subtasks..."
-                            value="{{ request.GET.q }}"
-                        >
-
-                        <button class="btn btn-primary">
-                            Search
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-            <div class="col-md-4 text-right">
-
-                <a
-                    href="{% url 'subtask-add' %}"
-                    class="btn btn-success"
-                >
-                    + Add Subtask
-                </a>
-
-            </div>
-
-        </div>
+    </div>
 
 
-        <div class="card">
+    <!-- Search and Sort -->
 
-            <div class="card-header">
-                <div class="card-title">
-                    Subtask List
+    <div class="card mb-4">
+
+        <div class="card-body">
+
+            <form method="get" class="row">
+
+                <div class="col-md-6">
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request.GET.q }}"
+                        class="form-control"
+                        placeholder="Search subtasks..."
+                    >
+
                 </div>
-            </div>
 
-            <div class="card-body">
+                <div class="col-md-4">
+
+                    <select name="sort_by" class="form-control">
+
+                        <option value="title">
+                            Title
+                        </option>
+
+                        <option value="status">
+                            Status
+                        </option>
+
+                        <option value="parent_task__title">
+                            Parent Task
+                        </option>
+
+                        <option value="created_at">
+                            Date Created
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <button type="submit" class="btn btn-secondary w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- Subtask Table -->
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
 
                 <table class="table table-hover">
 
                     <thead>
 
                         <tr>
-                            <th>Parent Task</th>
                             <th>Subtask</th>
+                            <th>Parent Task</th>
                             <th>Status</th>
+                            <th>Created</th>
                             <th>Actions</th>
                         </tr>
 
@@ -76,33 +103,57 @@
 
                     <tbody>
 
-                        {% for item in subtasks %}
+                        {% for subtask in subtasks %}
 
                         <tr>
 
                             <td>
-                                {{ item.parent_task.title }}
+                                {{ subtask.title }}
                             </td>
 
                             <td>
-                                {{ item.title }}
+                                {{ subtask.parent_task.title }}
                             </td>
 
                             <td>
-                                {{ item.status }}
+
+                                {% if subtask.status == "Completed" %}
+
+                                    <span class="badge bg-success">
+                                        Completed
+                                    </span>
+
+                                {% elif subtask.status == "In Progress" %}
+
+                                    <span class="badge bg-warning">
+                                        In Progress
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        Pending
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+                            <td>
+                                {{ subtask.created_at|date:"M d, Y" }}
                             </td>
 
                             <td>
 
                                 <a
-                                    href="{% url 'subtask-edit' item.pk %}"
+                                    href="{% url 'subtask-edit' subtask.pk %}"
                                     class="btn btn-sm btn-primary"
                                 >
                                     Edit
                                 </a>
 
                                 <a
-                                    href="{% url 'subtask-delete' item.pk %}"
+                                    href="{% url 'subtask-delete' subtask.pk %}"
                                     class="btn btn-sm btn-danger"
                                 >
                                     Delete
@@ -115,9 +166,22 @@
                         {% empty %}
 
                         <tr>
-                            <td colspan="4" class="text-center">
-                                No subtasks found.
+
+                            <td colspan="5" class="text-center">
+
+                                <p class="text-muted mb-2">
+                                    No subtasks found.
+                                </p>
+
+                                <a
+                                    href="{% url 'subtask-add' %}"
+                                    class="btn btn-primary"
+                                >
+                                    Add Your First Subtask
+                                </a>
+
                             </td>
+
                         </tr>
 
                         {% endfor %}
@@ -131,6 +195,66 @@
         </div>
 
     </div>
+
+
+    <!-- Pagination -->
+
+    {% if is_paginated %}
+
+    <div class="mt-4">
+
+        <nav>
+
+            <ul class="pagination justify-content-center">
+
+                {% if page_obj.has_previous %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}"
+                    >
+                        Previous
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+                        {{ page_obj.number }}
+                    </span>
+
+                </li>
+
+
+                {% if page_obj.has_next %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}"
+                    >
+                        Next
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}

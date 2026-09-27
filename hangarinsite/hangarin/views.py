@@ -23,11 +23,34 @@ from .forms import (
     SubTaskForm,
 )
 
+from .forms import (
+    TaskForm,
+    CategoryForm,
+    PriorityForm,
+    NoteForm,
+    SubTaskForm,
+    RegisterForm,
+)
+
+from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 class UserLoginView(LoginView):
     template_name = "login.html"
+
+class UserLogoutView(LogoutView):
+    next_page = "/login/"
+
+class RegisterView(CreateView):
+    form_class = RegisterForm
+    template_name = "register.html"
+    success_url = "/"
+    
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        login(self.request, self.object, backend="django.contrib.auth.backends.ModelBackend")
+        return response
 
 class HomePageView(LoginRequiredMixin, ListView):
     model = Task

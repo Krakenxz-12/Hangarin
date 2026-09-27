@@ -1,101 +1,149 @@
 {% extends "base.html" %}
 
-{% block title %}Priorities | Hangarin{% endblock %}
-
 {% block content %}
 
-<div class="content">
-    <div class="page-inner">
+<div class="container-fluid">
 
-        <div class="page-header">
-            <h4 class="page-title">Priorities</h4>
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Priorities</h1>
+            <p class="text-muted">Manage your task priorities</p>
         </div>
 
-        <div class="row mb-3">
-
-            <div class="col-md-8">
-
-                <form method="get">
-
-                    <div class="input-group">
-
-                        <input
-                            type="text"
-                            name="q"
-                            class="form-control"
-                            placeholder="Search priorities..."
-                            value="{{ request.GET.q }}"
-                        >
-
-                        <button class="btn btn-primary">
-                            Search
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-
-            <div class="col-md-4 text-right">
-
-                <a
-                    href="{% url 'priority-add' %}"
-                    class="btn btn-success"
-                >
-                    + Add Priority
-                </a>
-
-            </div>
-
-        </div>
+        <a href="{% url 'prio-add' %}" class="btn btn-primary">
+            Add Priority
+        </a>
+    </div>
 
 
-        <div class="card">
+    <!-- Search and Sort -->
+    <div class="card mb-4">
+        <div class="card-body">
 
-            <div class="card-header">
-                <div class="card-title">
-                    Priority List
+            <form method="get" class="row">
+
+                <div class="col-md-6">
+
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ request.GET.q }}"
+                        class="form-control"
+                        placeholder="Search priorities..."
+                    >
+
                 </div>
-            </div>
 
-            <div class="card-body">
+
+                <div class="col-md-4">
+
+                    <select name="sort_by" class="form-control">
+
+                        <option value="name"
+                            {% if request.GET.sort_by == "name" %}selected{% endif %}>
+                            Name
+                        </option>
+
+                        <option value="created_at"
+                            {% if request.GET.sort_by == "created_at" %}selected{% endif %}>
+                            Date Created
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="col-md-2">
+
+                    <button
+                        type="submit"
+                        class="btn btn-secondary w-100">
+                        Search
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+
+    <!-- Priority Table -->
+    <div class="card">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
 
                 <table class="table table-hover">
 
                     <thead>
+
                         <tr>
-                            <th>Name</th>
+                            <th>Priority</th>
                             <th>Created</th>
                             <th>Actions</th>
                         </tr>
+
                     </thead>
+
 
                     <tbody>
 
-                        {% for item in priorities %}
+                        {% for priority in priorities %}
 
                         <tr>
 
-                            <td>{{ item.name }}</td>
+                            <td>
+
+                                {% if priority.name == "Urgent" %}
+
+                                    <span class="badge bg-danger">
+                                        Urgent
+                                    </span>
+
+                                {% elif priority.name == "High" %}
+
+                                    <span class="badge bg-warning">
+                                        High
+                                    </span>
+
+                                {% elif priority.name == "Medium" %}
+
+                                    <span class="badge bg-info">
+                                        Medium
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="badge bg-secondary">
+                                        {{ priority.name }}
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
 
                             <td>
-                                {{ item.created_at|date:"M d, Y" }}
+                                {{ priority.created_at|date:"M d, Y" }}
                             </td>
+
 
                             <td>
 
                                 <a
-                                    href="{% url 'priority-edit' item.pk %}"
-                                    class="btn btn-sm btn-primary"
-                                >
+                                    href="{% url 'prio-edit' priority.pk %}"
+                                    class="btn btn-sm btn-primary">
                                     Edit
                                 </a>
 
                                 <a
-                                    href="{% url 'priority-delete' item.pk %}"
-                                    class="btn btn-sm btn-danger"
-                                >
+                                    href="{% url 'prio-delete' priority.pk %}"
+                                    class="btn btn-sm btn-danger">
                                     Delete
                                 </a>
 
@@ -103,12 +151,25 @@
 
                         </tr>
 
+
                         {% empty %}
 
                         <tr>
+
                             <td colspan="3" class="text-center">
-                                No priorities found.
+
+                                <p class="text-muted mb-2">
+                                    No priorities found.
+                                </p>
+
+                                <a
+                                    href="{% url 'prio-add' %}"
+                                    class="btn btn-primary">
+                                    Add Your First Priority
+                                </a>
+
                             </td>
+
                         </tr>
 
                         {% endfor %}
@@ -122,6 +183,63 @@
         </div>
 
     </div>
+
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+
+    <div class="mt-4">
+
+        <nav>
+
+            <ul class="pagination justify-content-center">
+
+                {% if page_obj.has_previous %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ page_obj.previous_page_number }}&q={{ request.GET.q }}&sort_by={{ request.GET.sort_by }}">
+                        Previous
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+
+                <li class="page-item active">
+
+                    <span class="page-link">
+                        {{ page_obj.number }}
+                    </span>
+
+                </li>
+
+
+                {% if page_obj.has_next %}
+
+                <li class="page-item">
+
+                    <a
+                        class="page-link"
+                        href="?page={{ page_obj.next_page_number }}&q={{ request.GET.q }}&sort_by={{ request.GET.sort_by }}">
+                        Next
+                    </a>
+
+                </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+    </div>
+
+    {% endif %}
+
 </div>
 
 {% endblock %}

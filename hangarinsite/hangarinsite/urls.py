@@ -16,8 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include  
-from django.contrib.auth.views import LogoutView
-from hangarin.views import UserLoginView
+from django.contrib.auth.views import LoginView, LogoutView
+from hangarin.views import UserLoginView, UserLogoutView, RegisterView
 from hangarin.views import HomePageView, TaskCreateView, TaskDeleteView, TaskList, TaskUpdateView, CategoryList, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, PriorityList, PriorityCreateView, PriorityUpdateView, PriorityDeleteView, NoteList, NoteCreateView, NoteUpdateView, NoteDeleteView, SubTaskList, SubTaskCreateView, SubTaskUpdateView, SubTaskDeleteView
 
 urlpatterns = [
@@ -40,7 +40,7 @@ urlpatterns = [
     path("priorities/<int:pk>/edit/",PriorityUpdateView.as_view(), name="prio-edit"),
     path("priorities/<int:pk>/delete/", PriorityDeleteView.as_view(),name="prio-delete"),
 
-    path("notes/", NoteList.as_view(), name="notes-list"),
+    path("notes/", NoteList.as_view(), name="note-list"),
     path("notes/add/", NoteCreateView.as_view(),  name="note-add"),
     path("notes/<int:pk>/edit/",NoteUpdateView.as_view(), name="note-edit"),
     path("notes/<int:pk>/delete/", NoteDeleteView.as_view(),name="note-delete"),
@@ -51,5 +51,8 @@ urlpatterns = [
     path("subtasks/<int:pk>/delete/", SubTaskDeleteView.as_view(),name="subtask-delete"),
 
     path("login/", UserLoginView.as_view(), name="login"),
+    path("register/", RegisterView.as_view(), name="register"),
     path("logout/", LogoutView.as_view(), name="logout"),
+
+    path("accounts/", include("allauth.urls")),
 ]

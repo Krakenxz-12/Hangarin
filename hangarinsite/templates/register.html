@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-6">
+
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="card-title">
+                        Create Hangarin Account
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        {{ form.non_field_errors }}
+
+                        <div class="form-group mb-3">
+                            <label>Username</label>
+                            {{ form.username }}
+
+                            {% for error in form.username.errors %}
+                                <div class="text-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Email</label>
+                            {{ form.email }}
+
+                            {% for error in form.email.errors %}
+                                <div class="text-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Password</label>
+                            {{ form.password1 }}
+
+                            {% for error in form.password1.errors %}
+                                <div class="text-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label>Confirm Password</label>
+                            {{ form.password2 }}
+
+                            {% for error in form.password2.errors %}
+                                <div class="text-danger">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Create Account
+                        </button>
+
+                        <a href="{% url 'login' %}" class="btn btn-secondary">
+                            Back to Login
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

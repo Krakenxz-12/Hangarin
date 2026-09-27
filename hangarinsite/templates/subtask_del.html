@@ -1,45 +1,54 @@
 {% extends "base.html" %}
 
-{% block title %}Delete Subtask | Hangarin{% endblock %}
-
 {% block content %}
 
-<div class="content">
-    <div class="page-inner">
+<div class="container-fluid">
 
-        <div class="card">
+    <div class="mb-4">
+        <h1>Delete Subtask</h1>
+        <p class="text-muted">Confirm subtask deletion</p>
+    </div>
 
-            <div class="card-body">
 
-                <h4>Delete Subtask</h4>
+    <div class="card">
 
-                <p>
-                    Are you sure you want to delete
-                    <strong>{{ object.title }}</strong>?
+        <div class="card-body">
+
+            <div class="alert alert-danger">
+
+                <strong>Are you sure?</strong>
+
+                <p class="mb-0 mt-2">
+                    You are about to delete:
+                    <strong>{{ object.title }}</strong>
                 </p>
 
-                <form method="post">
-
-                    {% csrf_token %}
-
-                    <button class="btn btn-danger">
-                        Yes, Delete
-                    </button>
-
-                    <a
-                        href="{% url 'subtask-list' %}"
-                        class="btn btn-secondary"
-                    >
-                        Cancel
-                    </a>
-
-                </form>
+                <p class="mt-2 mb-0">
+                    Parent Task:
+                    <strong>{{ object.parent_task.title }}</strong>
+                </p>
 
             </div>
+
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <button type="submit" class="btn btn-danger">
+                    Yes, Delete
+                </button>
+
+                <a href="{% url 'subtask-list' %}" class="btn btn-secondary">
+                    Cancel
+                </a>
+
+            </form>
 
         </div>
 
     </div>
+
 </div>
 
 {% endblock %}

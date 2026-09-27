@@ -1,157 +1,215 @@
 {% extends "base.html" %}
 
-{% block title %}
-    Hangarin Dashboard
-{% endblock %}
-
 {% block content %}
 
-<div class="container">
+<div class="container-fluid">
 
-    <!-- Page Heading -->
+    <!-- Dashboard Header -->
     <div class="mb-4">
-
-        <h1 class="fw-bold">
-            Hangarin Dashboard
-        </h1>
-
+        <h1 class="fw-bold">Hangarin Dashboard</h1>
         <p class="text-muted">
             Manage your tasks and stay organized.
         </p>
-
     </div>
 
 
-    <!-- Statistics -->
+    <!-- Statistics Cards -->
     <div class="row g-4">
 
-
         <!-- Total Tasks -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
+        <div class="col-md-6 col-xl-4">
+            <div class="card dashboard-card total-card border-0 shadow-sm h-100">
                 <div class="card-body">
 
-                    <h6 class="text-muted">
-                        Total Tasks
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                    <h2 class="fw-bold">
-                        {{ total_tasks }}
-                    </h2>
+                        <div>
+                            <p class="card-label">Total Tasks</p>
+                            <h2>{{ total_tasks }}</h2>
+                        </div>
+
+                        <div class="card-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'task-list' %}" class="card-link">
+                        View Tasks →
+                    </a>
 
                 </div>
-
             </div>
-
         </div>
 
 
-        <!-- Pending -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
+        <!-- Pending Tasks -->
+        <div class="col-md-6 col-xl-4">
+            <div class="card dashboard-card pending-card border-0 shadow-sm h-100">
                 <div class="card-body">
 
-                    <h6 class="text-muted">
-                        Pending Tasks
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                    <h2 class="fw-bold">
-                        {{ pending_tasks }}
-                    </h2>
+                        <div>
+                            <p class="card-label">Pending Tasks</p>
+                            <h2>{{ pending_tasks }}</h2>
+                        </div>
+
+                        <div class="card-icon">
+                            !
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'task-list' %}" class="card-link">
+                        View Tasks →
+                    </a>
 
                 </div>
-
             </div>
-
         </div>
 
 
         <!-- In Progress -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
+        <div class="col-md-6 col-xl-4">
+            <div class="card dashboard-card progress-card border-0 shadow-sm h-100">
                 <div class="card-body">
 
-                    <h6 class="text-muted">
-                        In Progress
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                    <h2 class="fw-bold">
-                        {{ in_progress_tasks }}
-                    </h2>
+                        <div>
+                            <p class="card-label">In Progress</p>
+                            <h2>{{ in_progress_tasks }}</h2>
+                        </div>
+
+                        <div class="card-icon">
+                            ↻
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'task-list' %}" class="card-link">
+                        View Tasks →
+                    </a>
 
                 </div>
-
             </div>
-
         </div>
 
 
         <!-- Completed -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
+        <div class="col-md-6 col-xl-4">
+            <div class="card dashboard-card completed-card border-0 shadow-sm h-100">
                 <div class="card-body">
 
-                    <h6 class="text-muted">
-                        Completed Tasks
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                    <h2 class="fw-bold">
-                        {{ completed_tasks }}
-                    </h2>
+                        <div>
+                            <p class="card-label">Completed Tasks</p>
+                            <h2>{{ completed_tasks }}</h2>
+                        </div>
+
+                        <div class="card-icon">
+                            ✓
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'task-list' %}" class="card-link">
+                        View Tasks →
+                    </a>
 
                 </div>
-
             </div>
-
         </div>
 
 
         <!-- Categories -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
+        <div class="col-md-6 col-xl-4">
+            <div class="card dashboard-card category-card border-0 shadow-sm h-100">
                 <div class="card-body">
 
-                    <h6 class="text-muted">
-                        Categories
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                    <h2 class="fw-bold">
-                        {{ total_categories }}
-                    </h2>
+                        <div>
+                            <p class="card-label">Categories</p>
+                            <h2>{{ total_categories }}</h2>
+                        </div>
+
+                        <div class="card-icon">
+                            #
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'category-list' %}" class="card-link">
+                        View Categories →
+                    </a>
 
                 </div>
-
             </div>
-
         </div>
 
 
         <!-- Priorities -->
-        <div class="col-md-4">
-
-            <div class="card shadow-sm h-100">
-
+        <div class="col-md-6 col-xl-4">
+            <div class="card dashboard-card priority-card border-0 shadow-sm h-100">
                 <div class="card-body">
 
-                    <h6 class="text-muted">
-                        Priorities
-                    </h6>
+                    <div class="d-flex justify-content-between align-items-center">
 
-                    <h2 class="fw-bold">
-                        {{ total_priorities }}
-                    </h2>
+                        <div>
+                            <p class="card-label">Priorities</p>
+                            <h2>{{ total_priorities }}</h2>
+                        </div>
+
+                        <div class="card-icon">
+                            ★
+                        </div>
+
+                    </div>
+
+                    <a href="{% url 'prio-list' %}" class="card-link">
+                        View Priorities →
+                    </a>
 
                 </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+    <div class="card border-0 shadow-sm mt-4">
+
+        <div class="card-body">
+
+            <h5 class="fw-bold mb-3">
+                Quick Actions
+            </h5>
+
+            <div class="d-flex flex-wrap gap-2">
+
+                <a href="{% url 'task-add' %}" class="btn btn-primary">
+                    + Add Task
+                </a>
+
+                <a href="{% url 'category-add' %}" class="btn btn-success">
+                    + Add Category
+                </a>
+
+                <a href="{% url 'prio-add' %}" class="btn btn-warning">
+                    + Add Priority
+                </a>
+
+                <a href="{% url 'note-add' %}" class="btn btn-info text-white">
+                    + Add Note
+                </a>
+
+                <a href="{% url 'subtask-add' %}" class="btn btn-secondary">
+                    + Add Subtask
+                </a>
 
             </div>
 
@@ -159,19 +217,98 @@
 
     </div>
 
-
-    <!-- Task Button -->
-    <div class="mt-4">
-
-        <a href="/tasks/"
-           class="btn btn-dark">
-
-            View Tasks
-
-        </a>
-
-    </div>
-
 </div>
+
+
+<!-- Dashboard Styling -->
+<style>
+
+    .dashboard-card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.25s ease;
+    }
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+    }
+
+    .dashboard-card .card-body {
+        padding: 24px;
+    }
+
+    .card-label {
+        margin-bottom: 6px;
+        font-size: 15px;
+        font-weight: 600;
+        opacity: 0.85;
+    }
+
+    .dashboard-card h2 {
+        margin: 0;
+        font-size: 38px;
+        font-weight: 700;
+    }
+
+    .card-icon {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 25px;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.25);
+    }
+
+    .card-link {
+        display: inline-block;
+        margin-top: 20px;
+        color: inherit;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .card-link:hover {
+        text-decoration: underline;
+    }
+
+
+    /* Card Colors */
+
+    .total-card {
+        background: linear-gradient(135deg, #4e73df, #224abe);
+        color: white;
+    }
+
+    .pending-card {
+        background: linear-gradient(135deg, #f6c23e, #dda20a);
+        color: white;
+    }
+
+    .progress-card {
+        background: linear-gradient(135deg, #36b9cc, #258391);
+        color: white;
+    }
+
+    .completed-card {
+        background: linear-gradient(135deg, #1cc88a, #13855c);
+        color: white;
+    }
+
+    .category-card {
+        background: linear-gradient(135deg, #6f42c1, #4e2a84);
+        color: white;
+    }
+
+    .priority-card {
+        background: linear-gradient(135deg, #e74a3b, #be2617);
+        color: white;
+    }
+
+</style>
 
 {% endblock %}
