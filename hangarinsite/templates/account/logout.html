@@ -1,0 +1,31 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Logout | Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="logout-message">
+
+    <h2>Ready to leave?</h2>
+
+    <p>
+        Are you sure you want to log out of your Hangarin account?
+    </p>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+
+        <button type="submit" class="auth-btn logout-btn">
+            Logout
+        </button>
+    </form>
+
+    <div class="auth-links">
+        <a href="{% url 'home' %}">
+            Cancel
+        </a>
+    </div>
+
+</div>
+
+{% endblock %}

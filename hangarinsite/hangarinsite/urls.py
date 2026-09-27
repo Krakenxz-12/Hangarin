@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include  
 from django.contrib.auth.views import LoginView, LogoutView
-from hangarin.views import UserLoginView, UserLogoutView, RegisterView
-from hangarin.views import HomePageView, TaskCreateView, TaskDeleteView, TaskList, TaskUpdateView, CategoryList, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, PriorityList, PriorityCreateView, PriorityUpdateView, PriorityDeleteView, NoteList, NoteCreateView, NoteUpdateView, NoteDeleteView, SubTaskList, SubTaskCreateView, SubTaskUpdateView, SubTaskDeleteView
+from hangarin.views import UserLoginView, UserLogoutView, RegisterView, ProfileView, ProfileUpdateView, SettingsView
+from hangarin.views import HomePageView, TaskCreateView, TaskDeleteView, TaskList, TaskUpdateView, CategoryList, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, PriorityList, PriorityCreateView, PriorityUpdateView, PriorityDeleteView, NoteList, NoteCreateView, NoteUpdateView, NoteDeleteView, SubTaskList, SubTaskCreateView, SubTaskUpdateView, SubTaskDeleteView, ProfileView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -55,4 +55,8 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
 
     path("accounts/", include("allauth.urls")),
+
+    path("profile/", ProfileView.as_view(), name="profile"),
+    path("profile/edit/", ProfileUpdateView.as_view(), name="profile-edit"),
+    path("settings/", SettingsView.as_view(), name="settings"),
 ]

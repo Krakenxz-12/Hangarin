@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In with {{ provider.name }} | Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8 col-lg-6 col-xl-5">
+
+            <div class="card social-login-card border-0 shadow-sm">
+
+                <div class="card-body text-center">
+
+                    <!-- Icon -->
+                    <div class="social-icon">
+
+                        {% if provider.id == "google" %}
+
+                            <span class="google-icon">G</span>
+
+                        {% elif provider.id == "github" %}
+
+                            <span class="github-icon">
+                                <i class="la la-github"></i>
+                            </span>
+
+                        {% else %}
+
+                            <i class="la la-user"></i>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Heading -->
+                    <h2 class="social-title">
+                        Sign In with {{ provider.name }}
+                    </h2>
+
+
+                    <!-- Description -->
+                    <p class="social-description">
+                        You are about to sign in to
+                        <strong>Hangarin</strong>
+                        using your {{ provider.name }} account.
+                    </p>
+
+
+                    <p class="text-muted small mb-4">
+                        Continue to securely connect your account.
+                    </p>
+
+
+                    <!-- Continue Form -->
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-lg btn-block"
+                        >
+                            Continue with {{ provider.name }}
+                        </button>
+
+                    </form>
+
+
+                    <!-- Cancel -->
+                    <a
+                        href="{% url 'login' %}"
+                        class="btn btn-light btn-block mt-2"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    .social-login-card {
+        border-radius: 15px;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        overflow: hidden;
+    }
+
+
+    .social-login-card .card-body {
+        padding: 45px 40px;
+    }
+
+    .social-icon {
+        width: 75px;
+        height: 75px;
+
+        margin: 0 auto 25px;
+
+        border-radius: 50%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #f1f3f8;
+
+        font-size: 36px;
+    }
+
+
+    .google-icon {
+        font-family: Arial, sans-serif;
+        font-size: 38px;
+        font-weight: 700;
+        color: #4285f4;
+    }
+
+
+    .github-icon {
+        font-size: 40px;
+        color: #24292f;
+    }
+
+    .social-title {
+        margin-bottom: 15px;
+
+        font-size: 28px;
+        font-weight: 700;
+
+        color: #343a40;
+    }
+
+
+    .social-description {
+        margin-bottom: 8px;
+
+        font-size: 16px;
+        line-height: 1.6;
+
+        color: #6c757d;
+    }
+
+    .social-login-card .btn-primary {
+        border-radius: 8px;
+
+        padding: 12px 20px;
+
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+    .social-login-card .btn-light {
+        border: 1px solid #e0e0e0;
+
+        border-radius: 8px;
+
+        padding: 11px 20px;
+
+        color: #6c757d;
+    }
+
+
+    .social-login-card .btn-light:hover {
+        background: #f5f5f5;
+    }
+
+</style>
+
+{% endblock %}

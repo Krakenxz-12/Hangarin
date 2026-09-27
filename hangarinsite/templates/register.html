@@ -1,89 +1,87 @@
-{% extends "base.html" %}
+{% extends "auth_base.html" %}
+
+{% block title %}Create Account | Hangarin{% endblock %}
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="auth-form">
 
-    <div class="row justify-content-center">
+    {% if form.errors %}
+        <div class="auth-error">
+            Please correct the errors below.
+        </div>
+    {% endif %}
 
-        <div class="col-md-6">
+    <form method="post">
+        {% csrf_token %}
 
-            <div class="card">
+        <div class="auth-form-group">
+            <label for="{{ form.username.id_for_label }}">
+                Username
+            </label>
 
-                <div class="card-header">
-                    <div class="card-title">
-                        Create Hangarin Account
-                    </div>
-                </div>
+            {{ form.username }}
 
-                <div class="card-body">
-
-                    <form method="post">
-
-                        {% csrf_token %}
-
-                        {{ form.non_field_errors }}
-
-                        <div class="form-group mb-3">
-                            <label>Username</label>
-                            {{ form.username }}
-
-                            {% for error in form.username.errors %}
-                                <div class="text-danger">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label>Email</label>
-                            {{ form.email }}
-
-                            {% for error in form.email.errors %}
-                                <div class="text-danger">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label>Password</label>
-                            {{ form.password1 }}
-
-                            {% for error in form.password1.errors %}
-                                <div class="text-danger">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <div class="form-group mb-3">
-                            <label>Confirm Password</label>
-                            {{ form.password2 }}
-
-                            {% for error in form.password2.errors %}
-                                <div class="text-danger">
-                                    {{ error }}
-                                </div>
-                            {% endfor %}
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">
-                            Create Account
-                        </button>
-
-                        <a href="{% url 'login' %}" class="btn btn-secondary">
-                            Back to Login
-                        </a>
-
-                    </form>
-
-                </div>
-
-            </div>
-
+            {% if form.username.errors %}
+                <small class="text-danger">
+                    {{ form.username.errors }}
+                </small>
+            {% endif %}
         </div>
 
+        <div class="auth-form-group">
+            <label for="{{ form.email.id_for_label }}">
+                Email
+            </label>
+
+            {{ form.email }}
+
+            {% if form.email.errors %}
+                <small class="text-danger">
+                    {{ form.email.errors }}
+                </small>
+            {% endif %}
+        </div>
+
+        <div class="auth-form-group">
+            <label for="{{ form.password1.id_for_label }}">
+                Password
+            </label>
+
+            {{ form.password1 }}
+
+            {% if form.password1.errors %}
+                <small class="text-danger">
+                    {{ form.password1.errors }}
+                </small>
+            {% endif %}
+        </div>
+
+        <div class="auth-form-group">
+            <label for="{{ form.password2.id_for_label }}">
+                Confirm Password
+            </label>
+
+            {{ form.password2 }}
+
+            {% if form.password2.errors %}
+                <small class="text-danger">
+                    {{ form.password2.errors }}
+                </small>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="auth-btn">
+            Create Account
+        </button>
+
+    </form>
+
+    <div class="auth-links">
+        Already have an account?
+        <a href="{% url 'login' %}">
+            Login
+        </a>
     </div>
 
 </div>

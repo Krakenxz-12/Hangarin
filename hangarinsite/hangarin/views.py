@@ -1,10 +1,13 @@
 from django.db.models import Q
 from django.urls import reverse_lazy
+from django.views.generic import TemplateView
+from django.contrib.auth.models import User
 from django.views.generic import (
     ListView,
     CreateView,
     UpdateView,
     DeleteView,
+    TemplateView,
 )
 
 from .models import (
@@ -30,11 +33,15 @@ from .forms import (
     NoteForm,
     SubTaskForm,
     RegisterForm,
+    ProfileForm,
 )
 
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "profile.html"
 
 class UserLoginView(LoginView):
     template_name = "login.html"
@@ -52,37 +59,58 @@ class RegisterView(CreateView):
         login(self.request, self.object, backend="django.contrib.auth.backends.ModelBackend")
         return response
 
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "profile.html"
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    form_class = ProfileForm
+    template_name = "profile_edit.html"
+    success_url = reverse_lazy("profile")
+
+    def get_object(self):
+        return self.request.user
+
+class SettingsView(LoginRequiredMixin, TemplateView):
+    template_name = "settings.html"
+
 class HomePageView(LoginRequiredMixin, ListView):
+
     model = Task
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
-        context["total_tasks"] = Task.objects.count()
+
+        user_tasks = Task.objects.filter(user=self.request.user)
+
+        context["total_tasks"] = user_tasks.count()
         context["total_categories"] = Category.objects.count()
         context["total_priorities"] = Priority.objects.count()
         context["total_notes"] = Note.objects.count()
         context["total_subtasks"] = SubTask.objects.count()
-        context["completed_tasks"] = Task.objects.filter(status="Completed").count()
-        context["pending_tasks"] = Task.objects.filter(status="Pending").count()
-        context["in_progress_tasks"] = Task.objects.filter(status="In Progress").count()
+        context["completed_tasks"] = user_tasks.filter(status="Completed").count()
+        context["pending_tasks"] = user_tasks.filter(status="Pending").count()
+        context["in_progress_tasks"] = user_tasks.filter(status="In Progress").count()
+
         return context
-
+    
 class TaskList(LoginRequiredMixin, ListView):
-
     model = Task
     context_object_name = "task"
     template_name = "task_list.html"
     paginate_by = 5
 
     def get_queryset(self):
-
-        qs = super().get_queryset()
+        qs = Task.objects.filter(
+            user=self.request.user
+        )
 
         query = self.request.GET.get("q")
 
         if query:
-
             qs = qs.filter(
                 Q(title__icontains=query)
                 | Q(description__icontains=query)
@@ -94,7 +122,6 @@ class TaskList(LoginRequiredMixin, ListView):
         return qs
 
     def get_ordering(self):
-
         allowed = [
             "title",
             "deadline",
@@ -111,28 +138,37 @@ class TaskList(LoginRequiredMixin, ListView):
         return "title"
 
 
-class TaskCreateView(LoginRequiredMixin,CreateView):
-
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = "task_form.html"
     success_url = reverse_lazy("task-list")
 
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
-class TaskUpdateView(LoginRequiredMixin,UpdateView):
 
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = "task_form.html"
     success_url = reverse_lazy("task-list")
 
+    def get_queryset(self):
+        return Task.objects.filter(
+            user=self.request.user
+        )
 
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
-
     model = Task
     template_name = "task_del.html"
     success_url = reverse_lazy("task-list")
 
+    def get_queryset(self):
+        return Task.objects.filter(
+            user=self.request.user
+        )
 
 class CategoryList(LoginRequiredMixin, ListView):
     
