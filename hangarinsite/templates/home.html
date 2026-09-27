@@ -5,7 +5,7 @@
 <div class="container-fluid">
 
     <!-- Dashboard Header -->
-    <div class="mb-4">
+    <div class="mx-3 mb-4">
         <h1 class="fw-bold">Hangarin</h1>
         <p class="text-muted">
             Manage your tasks and stay organized.
@@ -183,31 +183,31 @@
     <!-- Quick Actions -->
     <div class="card border-0 shadow-sm mt-4">
 
-        <div class="card-body">
+        <div class="card-body text-center">
 
-            <h5 class="fw-bold mb-3">
+            <h5 class="fw-bold mb-4">
                 Quick Actions
             </h5>
 
-            <div class="d-flex flex-wrap gap-2">
+            <div class="d-flex flex-wrap justify-content-center">
 
-                <a href="{% url 'task-add' %}" class="btn btn-primary">
+                <a href="{% url 'task-add' %}" class="btn btn-warning mx-3 mb-3">
                     + Add Task
                 </a>
 
-                <a href="{% url 'category-add' %}" class="btn btn-success">
+                <a href="{% url 'category-add' %}" class="btn btn-success mx-3 mb-3">
                     + Add Category
                 </a>
 
-                <a href="{% url 'prio-add' %}" class="btn btn-warning">
+                <a href="{% url 'prio-add' %}" class="btn btn-warning mx-3 mb-3">
                     + Add Priority
                 </a>
 
-                <a href="{% url 'note-add' %}" class="btn btn-info text-white">
+                <a href="{% url 'note-add' %}" class="btn btn-info text-white mx-3 mb-3">
                     + Add Note
                 </a>
 
-                <a href="{% url 'subtask-add' %}" class="btn btn-secondary">
+                <a href="{% url 'subtask-add' %}" class="btn btn-secondary mx-3 mb-3">
                     + Add Subtask
                 </a>
 

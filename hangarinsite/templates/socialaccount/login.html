@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-
+{% load static %}
+{% load socialaccount %}
 {% block title %}Sign In with {{ provider.name }} | Hangarin{% endblock %}
 
 {% block content %}
@@ -14,39 +15,69 @@
 
                 <div class="card-body text-center">
 
-                    <!-- Icon -->
-                    <div class="social-icon">
+                    <!-- Profile Picture -->
+                    <div class="social-profile-picture">
 
-                        {% if provider.id == "google" %}
+                        {% if request.user.is_authenticated %}
 
-                            <span class="google-icon">G</span>
-
-                        {% elif provider.id == "github" %}
-
-                            <span class="github-icon">
-                                <i class="la la-github"></i>
-                            </span>
+                            <img
+                                src="{% static 'img/profile.jpg' %}"
+                                alt="{{ request.user.username }}"
+                            >
 
                         {% else %}
 
-                            <i class="la la-user"></i>
+                            {% if provider.id == "google" %}
+
+                                <div class="provider-letter google-letter">
+                                    G
+                                </div>
+
+                            {% elif provider.id == "github" %}
+
+                                <div class="provider-letter github-letter">
+                                    <i class="la la-github"></i>
+                                </div>
+
+                            {% else %}
+
+                                <div class="provider-letter">
+                                    <i class="la la-user"></i>
+                                </div>
+
+                            {% endif %}
 
                         {% endif %}
 
                     </div>
 
 
-                    <!-- Heading -->
-                    <h2 class="social-title">
-                        Sign In with {{ provider.name }}
-                    </h2>
+                    <!-- Welcome -->
+                    {% if request.user.is_authenticated %}
+
+                        <p class="text-muted mb-1">
+                            Welcome back,
+                        </p>
+
+                        <h2 class="social-title">
+                            {{ request.user.username }}
+                        </h2>
+
+                    {% else %}
+
+                        <h2 class="social-title">
+                            Sign In with {{ provider.name }}
+                        </h2>
+
+                    {% endif %}
 
 
-                    <!-- Description -->
                     <p class="social-description">
+
                         You are about to sign in to
                         <strong>Hangarin</strong>
                         using your {{ provider.name }} account.
+
                     </p>
 
 
@@ -55,7 +86,7 @@
                     </p>
 
 
-                    <!-- Continue Form -->
+                    <!-- Continue -->
                     <form method="post">
 
                         {% csrf_token %}
@@ -103,11 +134,14 @@
         padding: 45px 40px;
     }
 
-    .social-icon {
-        width: 75px;
-        height: 75px;
 
-        margin: 0 auto 25px;
+    /* Profile Picture */
+
+    .social-profile-picture {
+        width: 90px;
+        height: 90px;
+
+        margin: 0 auto 20px;
 
         border-radius: 50%;
 
@@ -115,24 +149,46 @@
         align-items: center;
         justify-content: center;
 
+        overflow: hidden;
+
         background: #f1f3f8;
 
-        font-size: 36px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
 
-    .google-icon {
-        font-family: Arial, sans-serif;
+    .social-profile-picture img {
+        width: 90px;
+        height: 90px;
+
+        object-fit: cover;
+    }
+
+
+    /* Google / GitHub fallback */
+
+    .provider-letter {
+        width: 90px;
+        height: 90px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
         font-size: 38px;
         font-weight: 700;
+    }
+
+
+    .google-letter {
         color: #4285f4;
     }
 
 
-    .github-icon {
-        font-size: 40px;
+    .github-letter {
         color: #24292f;
     }
+
 
     .social-title {
         margin-bottom: 15px;
@@ -152,6 +208,7 @@
 
         color: #6c757d;
     }
+
 
     .social-login-card .btn-primary {
         border-radius: 8px;
