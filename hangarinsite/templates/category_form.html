@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Category | Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-inner">
+
+        <div class="page-header">
+            <h4 class="page-title">Category</h4>
+        </div>
+
+        <div class="card">
+
+            <div class="card-header">
+                <div class="card-title">
+                    Category Form
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button class="btn btn-primary">
+                        Save Category
+                    </button>
+
+                    <a
+                        href="{% url 'category-list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

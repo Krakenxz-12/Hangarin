@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Priority | Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-inner">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h4>Delete Priority</h4>
+
+                <p>
+                    Are you sure you want to delete
+                    <strong>{{ object.name }}</strong>?
+                </p>
+
+                <form method="post">
+
+                    {% csrf_token %}
+
+                    <button class="btn btn-danger">
+                        Yes, Delete
+                    </button>
+
+                    <a
+                        href="{% url 'priority-list' %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

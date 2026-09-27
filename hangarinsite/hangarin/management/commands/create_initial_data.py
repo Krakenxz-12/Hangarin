@@ -9,9 +9,9 @@ class Command(BaseCommand):
     help = "Create initial fake data for Tasks, Notes, and SubTasks"
 
     def handle(self, *args, **kwargs):
-        self.create_tasks(30)
-        self.create_notes(20)
-        self.create_subtasks(40)
+        self.create_tasks(35)
+        self.create_notes(25)
+        self.create_subtasks(45)
 
     def create_tasks(self, count):
         fake = Faker()

@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Hangarin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+    <!-- Page Heading -->
+    <div class="mb-4">
+
+        <h1 class="fw-bold">
+            Hangarin Dashboard
+        </h1>
+
+        <p class="text-muted">
+            Manage your tasks and stay organized.
+        </p>
+
+    </div>
+
+
+    <!-- Statistics -->
+    <div class="row g-4">
+
+
+        <!-- Total Tasks -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Total Tasks
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_tasks }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Pending -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Pending Tasks
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ pending_tasks }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- In Progress -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        In Progress
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ in_progress_tasks }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Completed -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Completed Tasks
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ completed_tasks }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Categories -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Categories
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_categories }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Priorities -->
+        <div class="col-md-4">
+
+            <div class="card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Priorities
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        {{ total_priorities }}
+                    </h2>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Task Button -->
+    <div class="mt-4">
+
+        <a href="/tasks/"
+           class="btn btn-dark">
+
+            View Tasks
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

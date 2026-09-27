@@ -15,8 +15,41 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include  
+from django.contrib.auth.views import LogoutView
+from hangarin.views import UserLoginView
+from hangarin.views import HomePageView, TaskCreateView, TaskDeleteView, TaskList, TaskUpdateView, CategoryList, CategoryCreateView, CategoryUpdateView, CategoryDeleteView, PriorityList, PriorityCreateView, PriorityUpdateView, PriorityDeleteView, NoteList, NoteCreateView, NoteUpdateView, NoteDeleteView, SubTaskList, SubTaskCreateView, SubTaskUpdateView, SubTaskDeleteView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+
+    path("", HomePageView.as_view(), name="home"), 
+
+    path("tasks/", TaskList.as_view(), name="task-list"),
+    path("tasks/add/", TaskCreateView.as_view(),  name="task-add"),
+    path("tasks/<int:pk>/edit/",TaskUpdateView.as_view(), name="task-edit"),
+    path("tasks/<int:pk>/delete/", TaskDeleteView.as_view(),name="task-delete"),
+
+    path("categories/", CategoryList.as_view(), name="category-list"),
+    path("categories/add/", CategoryCreateView.as_view(),  name="category-add"),
+    path("categories/<int:pk>/edit/",CategoryUpdateView.as_view(), name="category-edit"),
+    path("categories/<int:pk>/delete/", CategoryDeleteView.as_view(),name="category-delete"),
+
+    path("priorities/", PriorityList.as_view(), name="prio-list"),
+    path("priorities/add/", PriorityCreateView.as_view(),  name="prio-add"),
+    path("priorities/<int:pk>/edit/",PriorityUpdateView.as_view(), name="prio-edit"),
+    path("priorities/<int:pk>/delete/", PriorityDeleteView.as_view(),name="prio-delete"),
+
+    path("notes/", NoteList.as_view(), name="notes-list"),
+    path("notes/add/", NoteCreateView.as_view(),  name="note-add"),
+    path("notes/<int:pk>/edit/",NoteUpdateView.as_view(), name="note-edit"),
+    path("notes/<int:pk>/delete/", NoteDeleteView.as_view(),name="note-delete"),
+
+    path("subtasks/", SubTaskList.as_view(), name="subtask-list"),
+    path("subtasks/add/", SubTaskCreateView.as_view(),  name="subtask-add"),
+    path("subtasks/<int:pk>/edit/",SubTaskUpdateView.as_view(), name="subtask-edit"),
+    path("subtasks/<int:pk>/delete/", SubTaskDeleteView.as_view(),name="subtask-delete"),
+
+    path("login/", UserLoginView.as_view(), name="login"),
+    path("logout/", LogoutView.as_view(), name="logout"),
 ]

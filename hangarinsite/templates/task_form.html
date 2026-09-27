@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Task | Hangarin
+{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="page-inner">
+
+        <div class="page-header">
+
+            <h4 class="page-title">
+                Task
+            </h4>
+
+            <ul class="breadcrumbs">
+
+                <li class="nav-home">
+                    <a href="{% url 'home' %}">
+                        <i class="flaticon-home"></i>
+                    </a>
+                </li>
+
+                <li class="separator">
+                    <i class="flaticon-right-arrow"></i>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'task-list' %}">
+                        Tasks
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-8">
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div class="card-title">
+                            Task Form
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            {{ form.as_p }}
+
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                Save Task
+                            </button>
+
+                            <a
+                                href="{% url 'task-list' %}"
+                                class="btn btn-secondary"
+                            >
+                                Cancel
+                            </a>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

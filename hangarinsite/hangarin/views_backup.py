@@ -23,29 +23,41 @@ from .forms import (
     SubTaskForm,
 )
 
-from django.contrib.auth.views import LoginView, LogoutView
-from django.contrib.auth.mixins import LoginRequiredMixin
 
-class UserLoginView(LoginView):
-    template_name = "login.html"
+class HomePageView(ListView):
 
-class HomePageView(LoginRequiredMixin, ListView):
     model = Task
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):
+
         context = super().get_context_data(**kwargs)
+
         context["total_tasks"] = Task.objects.count()
+
         context["total_categories"] = Category.objects.count()
+
         context["total_priorities"] = Priority.objects.count()
+
         context["total_notes"] = Note.objects.count()
+
         context["total_subtasks"] = SubTask.objects.count()
-        context["completed_tasks"] = Task.objects.filter(status="Completed").count()
-        context["pending_tasks"] = Task.objects.filter(status="Pending").count()
-        context["in_progress_tasks"] = Task.objects.filter(status="In Progress").count()
+
+        context["completed_tasks"] = Task.objects.filter(
+            status="Completed"
+        ).count()
+
+        context["pending_tasks"] = Task.objects.filter(
+            status="Pending"
+        ).count()
+
+        context["in_progress_tasks"] = Task.objects.filter(
+            status="In Progress"
+        ).count()
+
         return context
 
-class TaskList(LoginRequiredMixin, ListView):
+class TaskList(ListView):
 
     model = Task
     context_object_name = "task"
@@ -88,7 +100,7 @@ class TaskList(LoginRequiredMixin, ListView):
         return "title"
 
 
-class TaskCreateView(LoginRequiredMixin,CreateView):
+class TaskCreateView(CreateView):
 
     model = Task
     form_class = TaskForm
@@ -96,7 +108,7 @@ class TaskCreateView(LoginRequiredMixin,CreateView):
     success_url = reverse_lazy("task-list")
 
 
-class TaskUpdateView(LoginRequiredMixin,UpdateView):
+class TaskUpdateView(UpdateView):
 
     model = Task
     form_class = TaskForm
@@ -104,18 +116,18 @@ class TaskUpdateView(LoginRequiredMixin,UpdateView):
     success_url = reverse_lazy("task-list")
 
 
-class TaskDeleteView(LoginRequiredMixin, DeleteView):
+class TaskDeleteView(DeleteView):
 
     model = Task
-    template_name = "task_del.html"
+    template_name = "task_delete.html"
     success_url = reverse_lazy("task-list")
 
 
-class CategoryList(LoginRequiredMixin, ListView):
-    
+class CategoryList(ListView):
+
     model = Category
     context_object_name = "categories"
-    template_name = "categories_list.html"
+    template_name = "category_list.html"
     paginate_by = 5
 
     def get_queryset(self):
@@ -146,7 +158,7 @@ class CategoryList(LoginRequiredMixin, ListView):
         return "name"
 
 
-class CategoryCreateView(LoginRequiredMixin, CreateView):
+class CategoryCreateView(CreateView):
 
     model = Category
     form_class = CategoryForm
@@ -154,7 +166,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("category-list")
 
 
-class CategoryUpdateView(LoginRequiredMixin, UpdateView):
+class CategoryUpdateView(UpdateView):
 
     model = Category
     form_class = CategoryForm
@@ -162,18 +174,18 @@ class CategoryUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("category-list")
 
 
-class CategoryDeleteView(LoginRequiredMixin, DeleteView):
+class CategoryDeleteView(DeleteView):
 
     model = Category
-    template_name = "category_del.html"
+    template_name = "category_delete.html"
     success_url = reverse_lazy("category-list")
 
 
-class PriorityList(LoginRequiredMixin, ListView):
+class PriorityList(ListView):
 
     model = Priority
     context_object_name = "priorities"
-    template_name = "prio_list.html"
+    template_name = "priority_list.html"
     paginate_by = 5
 
     def get_queryset(self):
@@ -204,34 +216,34 @@ class PriorityList(LoginRequiredMixin, ListView):
         return "name"
 
 
-class PriorityCreateView(LoginRequiredMixin, CreateView):
+class PriorityCreateView(CreateView):
 
     model = Priority
     form_class = PriorityForm
-    template_name = "prio_form.html"
+    template_name = "priority_form.html"
     success_url = reverse_lazy("priority-list")
 
 
-class PriorityUpdateView(LoginRequiredMixin, UpdateView):
+class PriorityUpdateView(UpdateView):
 
     model = Priority
     form_class = PriorityForm
-    template_name = "prio_form.html"
+    template_name = "priority_form.html"
     success_url = reverse_lazy("priority-list")
 
 
-class PriorityDeleteView(LoginRequiredMixin, DeleteView):
+class PriorityDeleteView(DeleteView):
 
     model = Priority
-    template_name = "prio_del.html"
+    template_name = "priority_delete.html"
     success_url = reverse_lazy("priority-list")
 
 
-class NoteList(LoginRequiredMixin, ListView):
+class NoteList(ListView):
 
     model = Note
     context_object_name = "notes"
-    template_name = "notes_list.html"
+    template_name = "note_list.html"
     paginate_by = 5
 
     def get_queryset(self):
@@ -264,30 +276,30 @@ class NoteList(LoginRequiredMixin, ListView):
         return "-created_at"
 
 
-class NoteCreateView(LoginRequiredMixin, CreateView):
+class NoteCreateView(CreateView):
 
     model = Note
     form_class = NoteForm
-    template_name = "notes_form.html"
+    template_name = "note_form.html"
     success_url = reverse_lazy("note-list")
 
 
-class NoteUpdateView(LoginRequiredMixin, UpdateView):
+class NoteUpdateView(UpdateView):
 
     model = Note
     form_class = NoteForm
-    template_name = "notes_form.html"
+    template_name = "note_form.html"
     success_url = reverse_lazy("note-list")
 
 
-class NoteDeleteView(LoginRequiredMixin, DeleteView):
+class NoteDeleteView(DeleteView):
 
     model = Note
-    template_name = "note_del.html"
+    template_name = "note_delete.html"
     success_url = reverse_lazy("note-list")
 
 
-class SubTaskList(LoginRequiredMixin, ListView):
+class SubTaskList(ListView):
 
     model = SubTask
     context_object_name = "subtasks"
@@ -327,7 +339,7 @@ class SubTaskList(LoginRequiredMixin, ListView):
         return "title"
 
 
-class SubTaskCreateView(LoginRequiredMixin, CreateView):
+class SubTaskCreateView(CreateView):
 
     model = SubTask
     form_class = SubTaskForm
@@ -335,7 +347,7 @@ class SubTaskCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("subtask-list")
 
 
-class SubTaskUpdateView(LoginRequiredMixin, UpdateView):
+class SubTaskUpdateView(UpdateView):
 
     model = SubTask
     form_class = SubTaskForm
@@ -343,8 +355,8 @@ class SubTaskUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("subtask-list")
 
 
-class SubTaskDeleteView(LoginRequiredMixin, DeleteView):
+class SubTaskDeleteView(DeleteView):
 
     model = SubTask
-    template_name = "subtask_del.html"
+    template_name = "subtask_delete.html"
     success_url = reverse_lazy("subtask-list")

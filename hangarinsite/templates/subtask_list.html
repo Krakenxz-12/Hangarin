@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Subtasks | Hangarin{% endblock %}
+
+{% block content %}
+
+<div class="content">
+    <div class="page-inner">
+
+        <div class="page-header">
+            <h4 class="page-title">Subtasks</h4>
+        </div>
+
+        <div class="row mb-3">
+
+            <div class="col-md-8">
+
+                <form method="get">
+
+                    <div class="input-group">
+
+                        <input
+                            type="text"
+                            name="q"
+                            class="form-control"
+                            placeholder="Search subtasks..."
+                            value="{{ request.GET.q }}"
+                        >
+
+                        <button class="btn btn-primary">
+                            Search
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="col-md-4 text-right">
+
+                <a
+                    href="{% url 'subtask-add' %}"
+                    class="btn btn-success"
+                >
+                    + Add Subtask
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+                <div class="card-title">
+                    Subtask List
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <table class="table table-hover">
+
+                    <thead>
+
+                        <tr>
+                            <th>Parent Task</th>
+                            <th>Subtask</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in subtasks %}
+
+                        <tr>
+
+                            <td>
+                                {{ item.parent_task.title }}
+                            </td>
+
+                            <td>
+                                {{ item.title }}
+                            </td>
+
+                            <td>
+                                {{ item.status }}
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{% url 'subtask-edit' item.pk %}"
+                                    class="btn btn-sm btn-primary"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'subtask-delete' item.pk %}"
+                                    class="btn btn-sm btn-danger"
+                                >
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                No subtasks found.
+                            </td>
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

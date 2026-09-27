@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Delete Task | Hangarin
+{% endblock %}
+
+{% block content %}
+
+<div class="content">
+
+    <div class="page-inner">
+
+        <div class="page-header">
+
+            <h4 class="page-title">
+                Delete Task
+            </h4>
+
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <h4>
+                            Delete Task
+                        </h4>
+
+                        <p>
+                            Are you sure you want to delete
+                            <strong>{{ object.title }}</strong>?
+                        </p>
+
+
+                        <form method="post">
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+                                Yes, Delete
+                            </button>
+
+                            <a
+                                href="{% url 'task-list' %}"
+                                class="btn btn-secondary"
+                            >
+                                Cancel
+                            </a>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
