@@ -24,6 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
 
     path("", HomePageView.as_view(), name="home"), 
+    path('', include('pwa.urls')),
 
     path("tasks/", TaskList.as_view(), name="task-list"),
     path("tasks/add/", TaskCreateView.as_view(),  name="task-add"),

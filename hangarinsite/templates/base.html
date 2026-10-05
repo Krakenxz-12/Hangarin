@@ -1,4 +1,5 @@
 {% load static %}
+{% load pwa %}
 
 <!DOCTYPE html>
 <html>
@@ -6,7 +7,7 @@
 <head>
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-
+    {% progressive_web_app_meta %}
     <title>{% block title %}Hangarin{% endblock %}</title>
 
     <meta
