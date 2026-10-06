@@ -268,7 +268,7 @@ class PriorityCreateView(LoginRequiredMixin, CreateView):
     model = Priority
     form_class = PriorityForm
     template_name = "prio_form.html"
-    success_url = reverse_lazy("priority-list")
+    success_url = reverse_lazy("prio-list")
 
 
 class PriorityUpdateView(LoginRequiredMixin, UpdateView):
@@ -276,14 +276,14 @@ class PriorityUpdateView(LoginRequiredMixin, UpdateView):
     model = Priority
     form_class = PriorityForm
     template_name = "prio_form.html"
-    success_url = reverse_lazy("priority-list")
+    success_url = reverse_lazy("prio-list")
 
 
 class PriorityDeleteView(LoginRequiredMixin, DeleteView):
 
     model = Priority
     template_name = "prio_del.html"
-    success_url = reverse_lazy("priority-list")
+    success_url = reverse_lazy("prio-list")
 
 
 class NoteList(LoginRequiredMixin, ListView):
