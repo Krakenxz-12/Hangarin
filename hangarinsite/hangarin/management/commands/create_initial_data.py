@@ -12,10 +12,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
 
-        self.create_users(5)
-        self.create_tasks(35)
-        self.create_notes(25)
-        self.create_subtasks(45)
+        self.create_users(3)
+        self.create_tasks(40)
+        self.create_notes(35)
+        self.create_subtasks(50)
 
     def create_users(self, count):
 
