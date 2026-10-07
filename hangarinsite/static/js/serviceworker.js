@@ -1,18 +1,20 @@
-self.addEventListener('install', function(e) {
-    e.waitUntil(
-        caches.open('hangarin-cache-v1').then(function(cache) {
-        return cache.addAll([
-        '/',
-        '/static/css/bootstrap.min.css',
-        '/static/js/main.js',
-        ]);
+self.addEventListener('install', function (e) {
+  self.skipWaiting();
+  e.waitUntil(
+    caches.open('hangarin-cache-v2').then(function (cache) {
+      return cache.add('/').catch(function () {});
     })
-    );
+  );
 });
-self.addEventListener('fetch', function(e) {
-    e.respondWith(
-        caches.match(e.request).then(function(response) {
-        return response || fetch(e.request);
-        })
-    );
+
+self.addEventListener('activate', function (e) {
+  e.waitUntil(self.clients.claim());
+});
+
+self.addEventListener('fetch', function (e) {
+  e.respondWith(
+    caches.match(e.request).then(function (response) {
+      return response || fetch(e.request);
+    })
+  );
 });
